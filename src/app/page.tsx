@@ -122,7 +122,7 @@ export default function Portfolio() {
     <div>
       <h5 className="text-sm font-medium text-muted-foreground mb-3">Frontend</h5>
       <div className="flex flex-wrap gap-4">
-        {["HTML", "CSS", "React", "Next.js", "Tailwind", "Svelte"].map((tech) => (
+        {["html", "css", "react", "next.js", "tailwind", "svelte"].map((tech) => (
           <div
             key={tech}
             className="group relative flex flex-col items-center justify-center w-8 h-8"
@@ -142,7 +142,7 @@ export default function Portfolio() {
     <div>
       <h5 className="text-sm font-medium text-muted-foreground mb-3">Backend</h5>
       <div className="flex flex-wrap gap-4">
-        {["C", "JavaScript", "TypeScript", "Node.js", "Python", "PostgreSQL", "MySQL", "Sequelize", "Django", "Strapi", "Expressjs"].map((tech) => (
+        {["c", "javascript", "typescript", "node.js", "python", "postgresql", "mysql", "sequelize", "django", "strapi", "expressjs"].map((tech) => (
           <div
             key={tech}
             className="group relative flex flex-col items-center justify-center w-8 h-8"
@@ -162,7 +162,7 @@ export default function Portfolio() {
     <div>
       <h5 className="text-sm font-medium text-muted-foreground mb-3">Extras</h5>
       <div className="flex flex-wrap gap-4">
-        {["Docker", "Git", "Azure", "AWS", "Vercel", "Supabase"].map((tech) => (
+        {["docker", "git", "azure", "aws", "vercel", "supabase"].map((tech) => (
           <div
             key={tech}
             className="group relative flex flex-col items-center justify-center w-8 h-8"
