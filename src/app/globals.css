@@ -137,3 +137,74 @@
 .text-balance {
   text-wrap: balance;
 }
+
+/* Tech carousel animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 10s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Tech carousel: mover hasta el final (sin loop) */
+@keyframes scroll-to-end {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--scroll-distance, 0px)));
+  }
+}
+
+.animate-scroll-to-end {
+  animation-name: scroll-to-end;
+  animation-duration: var(--scroll-duration, 10s);
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.animate-scroll-to-end:hover {
+  animation-play-state: paused;
+}
+
+/* Tech carousel: loop suave (requiere duplicar items) */
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--scroll-distance, 0px)));
+  }
+}
+
+.animate-scroll-loop {
+  animation-name: scroll-loop;
+  animation-duration: var(--scroll-duration, 10s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.animate-scroll-loop:hover {
+  animation-play-state: paused;
+}
+
+/* Custom utility classes for portfolio */
+.container-max {
+  @apply max-w-6xl mx-auto px-6;
+}
+
+.section-padding {
+  @apply py-24 px-6;
+}
+
