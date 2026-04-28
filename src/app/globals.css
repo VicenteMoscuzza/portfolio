@@ -1,10 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(100% 0.00011 271.152);
+  --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -12,11 +12,11 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(100% 0.00011 271.152);
+  --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(71.547% 0.00008 271.152);
+  --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -75,6 +75,8 @@
 }
 
 @theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -117,94 +119,97 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
     @apply bg-background text-foreground;
-  }
-
-  html {
-    scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 }
 
-.section-padding {
-  @apply py-16 px-6 lg:py-24;
-}
-
+/* Custom container utility */
 .container-max {
-  @apply max-w-6xl mx-auto;
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.text-balance {
-  text-wrap: balance;
-}
-
-/* Tech carousel animation */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
+@media (min-width: 640px) {
+  .container-max {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
-.animate-scroll {
-  animation: scroll 10s linear infinite;
-}
-
-.animate-scroll:hover {
-  animation-play-state: paused;
-}
-
-/* Tech carousel: mover hasta el final (sin loop) */
-@keyframes scroll-to-end {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-1 * var(--scroll-distance, 0px)));
+@media (min-width: 1024px) {
+  .container-max {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
-.animate-scroll-to-end {
-  animation-name: scroll-to-end;
-  animation-duration: var(--scroll-duration, 10s);
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+/* Section padding utility */
+.section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.animate-scroll-to-end:hover {
-  animation-play-state: paused;
+@media (min-width: 640px) {
+  .section-padding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
-/* Tech carousel: loop suave (requiere duplicar items) */
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Tech carousel scroll animation */
 @keyframes scroll-loop {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-1 * var(--scroll-distance, 0px)));
+    transform: translateX(calc(var(--scroll-distance, 0px) * -1));
   }
 }
 
 .animate-scroll-loop {
-  animation-name: scroll-loop;
-  animation-duration: var(--scroll-duration, 10s);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  animation: scroll-loop var(--scroll-duration, 10s) linear infinite;
 }
 
 .animate-scroll-loop:hover {
   animation-play-state: paused;
 }
 
-/* Custom utility classes for portfolio */
-.container-max {
-  @apply max-w-6xl mx-auto px-6;
+/* Prevent horizontal overflow on all major containers */
+main,
+section,
+article,
+div {
+  max-width: 100%;
 }
 
-.section-padding {
-  @apply py-24 px-6;
+/* Ensure text wraps properly on small screens */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
-

@@ -1,6 +1,6 @@
 "use client"
 
-import { Coffee, Github, Linkedin, Mail, ExternalLink, ArrowUpRight, Moon, Sun } from "lucide-react"
+import { Coffee, Github, Linkedin, ExternalLink, ArrowUpRight, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { ContactForm } from "./components/contact-form"
@@ -17,13 +17,13 @@ export default function Portfolio() {
   useEffect(() => setMounted(true), [])
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
         <div className="container-max">
           <div className="flex items-center justify-between py-4">
-            <div className="font-mono text-lg font-semibold pl-4">
-              <Coffee />
+            <div className="font-mono text-lg font-semibold">
+              <Coffee className="w-5 h-5" />
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
@@ -39,7 +39,6 @@ export default function Portfolio() {
                 Contacto
               </a>
             </div>
-            {/* Botón Dark/Light Mode */}
             {mounted && (
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -53,35 +52,39 @@ export default function Portfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-20 pb-20 px-6">
+      <section className="pt-24 pb-16 sm:pt-28 sm:pb-20">
         <div className="container-max">
-          <div className="max-w-4xl lg:max-w-none lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-            <div>
+          <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+            <div className="w-full">
               <p className="font-mono text-sm mb-4">Hola, soy</p>
-              <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-balance">{"<Vicente Moscuzza />"}</h1>
-              <h2 className="text-3xl lg:text-5xl font-bold text-muted-foreground mb-8">Desarrollador Full Stack</h2>
-              <p className="text-lg text-muted-foreground mb-12 leading-relaxed max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 text-balance">
+                {"<Vicente Moscuzza />"}
+              </h1>
+              <h2 className="text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold text-muted-foreground mb-6 sm:mb-8">
+                Desarrollador Full Stack
+              </h2>
+              <p className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-12 leading-relaxed max-w-2xl">
                 Construyo experiencias digitales excepcionales. Especializado en crear aplicaciones web modernas que
                 combinan diseño intuitivo con arquitectura robusta, enfocándome en el rendimiento y la experiencia del
                 usuario.
               </p>
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <a
                   href="#projects"
-                  className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
                 >
                   Ver mi trabajo
                 </a>
                 <a
                   href="/Vicente Moscuzza CV.pdf"
                   download
-                  className="inline-flex items-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
                 >
                   Descargar CV
                 </a>
               </div>
             </div>
-            <div className="flex justify-center mt-8 lg:mt-0">
+            <div className="flex justify-center mt-8 lg:mt-0 order-first lg:order-last mb-8 lg:mb-0">
               <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-64 lg:h-64 group">
                 <img
                   src="/fotocv.jpg"
@@ -102,10 +105,10 @@ export default function Portfolio() {
       {/* About Section */}
       <section id="about" className="section-padding">
         <div className="container-max">
-          <div className="grid lg:grid-cols-3 gap-16">
-            <div className="lg:col-span-2">
-              <h3 className="text-3xl font-bold mb-8">Sobre mí</h3>
-              <div className="space-y-6 text-muted-foreground leading-relaxed">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8 lg:gap-16">
+            <div className="lg:col-span-2 min-w-0">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Sobre mí</h3>
+              <div className="space-y-4 sm:space-y-6 text-muted-foreground leading-relaxed">
                 <p>
                   Soy estudiante de{" "}
                   <span className="font-semibold text-foreground">Ingeniería en Sistemas de Información</span> en la Universidad
@@ -123,9 +126,9 @@ export default function Portfolio() {
             </div>
 
             {/* Tech Carousel Section */}
-            <div className="lg:col-span-1">
-              <h4 className="text-xl font-semibold mb-6">Tecnologías</h4>
-              <div className="space-y-8">
+            <div className="lg:col-span-1 w-full overflow-hidden">
+              <h4 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Tecnologías</h4>
+              <div className="space-y-6 sm:space-y-8">
                 <TechCarousel title="Frontend" technologies={frontendTechs} />
                 <TechCarousel title="Backend" technologies={backendTechs} />
                 <TechCarousel title="Extras" technologies={extraTechs} />
@@ -138,22 +141,22 @@ export default function Portfolio() {
       {/* Experience Section */}
       <section id="experience" className="section-padding bg-secondary/30">
         <div className="container-max">
-          <h3 className="text-3xl font-bold mb-12">Experiencia</h3>
-          <div className="space-y-12">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12">Experiencia</h3>
+          <div className="space-y-8 sm:space-y-12">
             <div className="group">
-              <div className="flex flex-col lg:flex-row lg:items-start gap-4 mb-4">
-                <div className="flex-1">
-                  <h4 className="text-xl font-semibold mb-2 group-hover:text-accent transition-colors">
+              <div className="flex flex-col lg:flex-row lg:items-start gap-2 sm:gap-4 mb-4">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-accent transition-colors">
                     Desarrollo Full Stack y Conexión IoT
                   </h4>
                   <p className="font-medium mb-2">Laboratorio LISA - UTN FRLP</p>
                   <p className="text-sm text-muted-foreground">2025 — Presente</p>
                 </div>
-                <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors" />
+                <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-colors shrink-0 hidden lg:block" />
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-4 max-w-3xl">
+              <p className="text-muted-foreground leading-relaxed mb-4">
                 En este laboratorio participo del proyecto <span className="font-semibold">Ciudades Inteligentes</span>, donde
-                estoy trabajando en el desarrollo Full Stack de la plataforma y tambien participo en la conexión de dos placas ESP-32 mediante tecnología LoRa.
+                estoy trabajando en el desarrollo Full Stack de la plataforma y también participo en la conexión de dos placas ESP-32 mediante tecnología LoRa.
               </p>
               <div className="flex flex-wrap gap-2">
                 {["JavaScript", "Svelte", "Django", "PostgreSQL"].map((tech) => (
@@ -170,13 +173,13 @@ export default function Portfolio() {
       {/* Projects Section */}
       <section id="projects" className="section-padding">
         <div className="container-max">
-          <h3 className="text-3xl font-bold mb-12">Proyectos destacados</h3>
-          <div className="grid lg:grid-cols-3 gap-8">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12">Proyectos destacados</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 title: "NutriGym",
                 description:
-                  "Plataforma completa de gestón de rutnas y dietas para gimnasios personalizadas, según preferencias del usuario, con roles de administrador y usuario final.",
+                  "Plataforma completa de gestión de rutinas y dietas para gimnasios personalizadas, según preferencias del usuario, con roles de administrador y usuario final.",
                 techs: ["Next.js", "React", "Sequelize", "PostgreSQL"],
                 link: "https://nutrigym-henna.vercel.app/",
                 image: "/NutriGym.png",
@@ -189,17 +192,17 @@ export default function Portfolio() {
                 rel="noopener noreferrer"
                 className="group cursor-pointer block"
               >
-                <div className="bg-card border border-border rounded-lg p-6 hover:border-accent/50 transition-all duration-300">
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6 hover:border-accent/50 transition-all duration-300 h-full">
                   {project.image && (
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-40 object-cover rounded mb-4"
+                      className="w-full h-32 sm:h-40 object-cover rounded mb-4"
                     />
                   )}
                   <div className="flex items-start justify-between mb-4">
                     <h5 className="font-semibold group-hover:text-accent transition-colors">{project.title}</h5>
-                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
                   </div>
                   <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
                     {project.description}
@@ -222,25 +225,25 @@ export default function Portfolio() {
       <section id="contact" className="section-padding bg-secondary/30">
         <div className="container-max">
           <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold mb-4">Contáctame</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+            <div className="text-center mb-8 sm:mb-12">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-4">Contáctame</h3>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                 Siempre estoy abierto a escuchar nuevas oportunidades. Envíame un mensaje y te responderé lo antes posible.
               </p>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-card border border-border rounded-xl p-8 mb-8">
+            <div className="bg-card border border-border rounded-xl p-4 sm:p-8 mb-8">
               <ContactForm />
             </div>
 
             {/* Social Links */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
               <a
                 href="https://github.com/VicenteMoscuzza"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
+                className="inline-flex items-center justify-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
               >
                 <Github className="w-4 h-4 mr-2" />
                 GitHub
@@ -249,7 +252,7 @@ export default function Portfolio() {
                 href="https://www.linkedin.com/in/vicente-moscuzza-56a1b8265/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
+                className="inline-flex items-center justify-center px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-medium"
               >
                 <Linkedin className="w-4 h-4 mr-2" />
                 LinkedIn
@@ -260,11 +263,13 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
+      <footer className="py-6 sm:py-8 border-t border-border">
         <div className="container-max">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">© 2025 Vicente. Construido con React y NextJS.</p>
-            <div className="flex items-center gap-6">
+          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+            <p className="text-sm text-muted-foreground text-center md:text-left">
+              © 2025 Vicente. Construido con React y NextJS.
+            </p>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
               <a
                 href="mailto:vicente.moscuzza@email.com"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
