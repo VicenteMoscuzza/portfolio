@@ -236,7 +236,6 @@ export default function Portfolio() {
             <div className="bg-card border border-border rounded-xl p-4 sm:p-8 mb-8">
               <ContactForm />
             </div>
-
             {/* Social Links */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
               <a
