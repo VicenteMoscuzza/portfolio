@@ -1,6 +1,6 @@
 "use client"
 
-import { Coffee, Github, Linkedin, ExternalLink, ArrowUpRight, Moon, Sun } from "lucide-react"
+import { Github, Linkedin, ExternalLink, ArrowUpRight, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { CommandPalette } from "./components/command-palette"
@@ -10,11 +10,60 @@ import { CustomCursor } from "./components/custom-cursor"
 import { Reveal } from "./components/reveal"
 import { ScrollProgress } from "./components/scroll-progress"
 import { TechCarousel } from "./components/tech-carousel"
-import { TiltCard } from "./components/tilt-card"
+import { MateIcon } from "./components/mate-icon"
+import { ProjectDetails } from "./components/project-details"
+import { ProjectVideo } from "./components/project-video"
+import { SpotlightCard } from "./components/spotlight-card"
 
 const frontendTechs = ["html", "css", "react", "next.js", "tailwind", "svelte"]
-const backendTechs = ["c", "javascript", "typescript", "node.js", "python", "postgresql", "mysql", "sequelize", "django", "strapi", "expressjs", "java", "springboot"]
+const backendTechs = ["c", "javascript", "typescript", "node.js", "python", "postgresql", "mysql", "sequelize", "typeorm", "django", "fastapi", "strapi", "expressjs", "java", "springboot"]
 const extraTechs = ["docker", "git", "azure", "aws", "vercel", "supabase"]
+
+type Project = {
+  title: string
+  description: string
+  techs: string[]
+  link?: string
+  image?: string
+  /** Ruta del video dentro de /public */
+  video?: string
+  /** Link al repositorio (se muestra como botón "Ver código") */
+  repo?: string
+  badge?: string
+  /** Card un poco más ancha en pantallas grandes */
+  featured?: boolean
+  /** Texto extra que se despliega con "Ver más" */
+  details?: string
+  highlights?: string[]
+}
+
+const projects: Project[] = [
+  {
+    title: "Quento Club",
+    description:
+      "Sistema de turnos para un complejo de pádel real: una plataforma web y un agente de WhatsApp con IA que reservan sobre una misma base de datos, sin dobles reservas.",
+    details:
+      "Sistema de gestión de turnos para un complejo de pádel real de 8 canchas, que reemplazó el cuaderno y el chat manual. Dos canales de reserva, una plataforma web y un agente de WhatsApp con IA, sobre una única base de datos: lo que se reserva en uno aparece al instante en el otro y la doble reserva deja de ser posible.",
+    highlights: [
+      "Agente de WhatsApp con IA (Gemini + MCP) que consulta, reserva, reprograma y cancela turnos en lenguaje natural",
+      "Reservas en tiempo real y partidos abiertos para completar jugadores, con chat interno y sistema de puntos",
+      "Panel para el club con turnera global, métricas de ocupación y control de asistencia",
+      "5 roles con permisos propios: invitado, jugador, profesor, trabajador y dueño",
+    ],
+    featured: true,
+    techs: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Python", "Gemini", "MCP"],
+    video: "/quento-demo.webm",
+    repo: "https://github.com/JoacoMazza/padel-quento",
+    badge: "🎓 Proyecto final · UTN FRLP",
+  },
+  {
+    title: "NutriGym",
+    description:
+      "Plataforma completa de gestión de rutinas y dietas para gimnasios personalizadas, según preferencias del usuario, con roles de administrador y usuario final.",
+    techs: ["Next.js", "React", "Sequelize", "PostgreSQL"],
+    image: "/NutriGym.png",
+  },
+]
 
 export default function Portfolio() {
   const { theme, setTheme } = useTheme()
@@ -32,7 +81,7 @@ export default function Portfolio() {
         <div className="container-max">
           <div className="flex items-center justify-between py-4">
             <div className="font-mono text-lg font-semibold">
-              <Coffee className="w-5 h-5" />
+              <MateIcon className="w-7 h-7" />
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">
@@ -191,40 +240,53 @@ export default function Portfolio() {
           <Reveal>
             <h3 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12">Proyectos destacados</h3>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              {
-                title: "NutriGym",
-                description:
-                  "Plataforma completa de gestión de rutinas y dietas para gimnasios personalizadas, según preferencias del usuario, con roles de administrador y usuario final.",
-                techs: ["Next.js", "React", "Sequelize", "PostgreSQL"],
-                link: "https://nutrigym-henna.vercel.app/",
-                image: "/NutriGym.png",
-              },
-            ].map((project, index) => (
-              <Reveal key={project.title} delay={index * 0.1} className="h-full">
-              <TiltCard className="h-full">
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group cursor-pointer block h-full [transform-style:preserve-3d]"
-              >
-                <div className="bg-card border border-border rounded-lg p-4 sm:p-6 hover:border-foreground/20 hover:shadow-2xl transition-[border-color,box-shadow] duration-300 h-full [transform-style:preserve-3d]">
-                  {project.image && (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-32 sm:h-40 object-cover rounded mb-4 shadow-md [transform:translateZ(40px)]"
-                    />
+          {/* En pantallas grandes: grilla de 5 columnas, el proyecto destacado ocupa 3 y el resto 2 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
+            {projects.map((project, index) => {
+              // La card entera es un link solo si no tiene video (si no, el clic en play abriría el link)
+              const wholeCardIsLink = !!project.link && !project.video
+
+              const cardContent = (
+                <div className="p-4 sm:p-6 h-full">
+                  {project.video ? (
+                    <ProjectVideo src={project.video} title={project.title} className="mb-4" />
+                  ) : (
+                    project.image && (
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-auto rounded mb-4 shadow-md"
+                      />
+                    )
                   )}
-                  <div className="flex items-start justify-between mb-4 [transform:translateZ(25px)]">
+                  {project.badge && (
+                    <span className="inline-block mb-3 px-2 py-1 rounded-full bg-foreground text-background text-xs font-medium">
+                      {project.badge}
+                    </span>
+                  )}
+                  <div className="flex items-start justify-between gap-4 mb-4">
                     <h5 className="font-semibold underline-offset-4 decoration-foreground/30 group-hover:underline">{project.title}</h5>
-                    <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,translate] shrink-0" />
+                    {wholeCardIsLink && (
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,translate] shrink-0" />
+                    )}
+                    {project.repo && (
+                      <a
+                        href={project.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-border rounded-md text-xs font-medium hover:bg-secondary transition-colors shrink-0"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                        Ver código
+                      </a>
+                    )}
                   </div>
                   <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
                     {project.description}
                   </p>
+                  {(project.details || project.highlights) && (
+                    <ProjectDetails details={project.details} highlights={project.highlights} />
+                  )}
                   <div className="flex flex-wrap gap-1">
                     {project.techs.map((tech) => (
                       <span key={tech} className="px-2 py-1 border border-border rounded text-xs font-mono">
@@ -233,10 +295,31 @@ export default function Portfolio() {
                     ))}
                   </div>
                 </div>
-              </a>
-              </TiltCard>
-              </Reveal>
-            ))}
+              )
+
+              return (
+                <Reveal
+                  key={project.title}
+                  delay={index * 0.1}
+                  className={`h-full ${project.featured ? "lg:col-span-3" : "lg:col-span-2"}`}
+                >
+                  <SpotlightCard>
+                    {wholeCardIsLink ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group cursor-pointer block h-full"
+                      >
+                        {cardContent}
+                      </a>
+                    ) : (
+                      cardContent
+                    )}
+                  </SpotlightCard>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
