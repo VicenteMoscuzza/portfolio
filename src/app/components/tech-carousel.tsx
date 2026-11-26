@@ -1,6 +1,14 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
+import type { IconType } from "react-icons"
+import { SiFastapi, SiTypeorm } from "react-icons/si"
+
+// Tecnologías sin PNG en /public: se dibuja el logo de react-icons con su color de marca
+const SVG_LOGOS: Record<string, { Icon: IconType; color: string }> = {
+  typeorm: { Icon: SiTypeorm, color: "#FE0803" },
+  fastapi: { Icon: SiFastapi, color: "#009688" },
+}
 
 interface TechCarouselProps {
   title: string
@@ -57,11 +65,18 @@ export function TechCarousel({ title, technologies }: TechCarouselProps) {
                 className="group relative shrink-0 flex flex-col items-center justify-center mx-2 sm:mx-3"
               >
                 <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg bg-secondary/50 p-2 transition-all duration-300 group-hover:scale-110 group-hover:bg-secondary">
-                  <img
-                    src={`/${tech.replace(/\s/g, "").replace(".", "").toLowerCase()}.png`}
-                    alt={tech}
-                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                  />
+                  {SVG_LOGOS[tech] ? (
+                    (() => {
+                      const { Icon, color } = SVG_LOGOS[tech]
+                      return <Icon aria-label={tech} className="w-6 h-6 sm:w-8 sm:h-8" style={{ color }} />
+                    })()
+                  ) : (
+                    <img
+                      src={`/${tech.replace(/\s/g, "").replace(".", "").toLowerCase()}.png`}
+                      alt={tech}
+                      className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                    />
+                  )}
                 </div>
                 <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground rounded px-2 py-1 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20">
                   {tech}
